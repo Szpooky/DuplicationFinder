@@ -15,11 +15,17 @@
 
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
 
+@property (weak) IBOutlet NSButton *startNewButton;
+
+@property (weak) IBOutlet NSButton *addButton;
+
+@property (weak) IBOutlet NSButton *startButton;
+
+@property (weak) IBOutlet NSButton *clearButton;
+
 @property (weak) IBOutlet NSProgressIndicator *progressIndicator;
 
 @property (weak) IBOutlet NSTextField *fileCounterTextField;
-
-@property (unsafe_unretained) IBOutlet NSTextView *textView;
 
 @property (nonatomic, strong) DuplicationEngine* engine;
 
@@ -49,10 +55,13 @@
     
     [self.tableView setDoubleAction:@selector(doubleClick)];
     
-    
     self.progressIndicator.hidden = YES;
     
     self.engine = [DuplicationEngine new];
+    
+    DuplicationEngineData *data = [self.engine cancel];
+    
+    [self reloadDataWithEngineData:data completed:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeFileFromContentAtRow:) name:REMOVE_FILE_NOTIFICATION object:nil];
     
@@ -168,8 +177,27 @@
 
 #pragma mark - Button Actions
 
+- (IBAction)startNewButtonAction:(id)sender
+{
+    [self cancel];
+    
+    DuplicationEngineData *data = [self.engine clear];
+    
+    [self reloadDataWithEngineData:data completed:YES];
+    
+    [self.engine.searchDirectories removeAllObjects];
+    
+    [self.progressIndicator stopAnimation:nil];
+    
+    self.progressIndicator.hidden = YES;
+    
+    self.progressBar.doubleValue = 0.0;
+}
+
 - (IBAction)addButtonAction:(id)sender
 {
+    [self cancel];
+    
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     
     openPanel.directoryURL = [NSURL URLWithString:@"file:/Volumes/"];
@@ -188,25 +216,48 @@
 
 - (IBAction)startButtonAction:(id)sender
 {
-    self.textView.string = @"";
-    
-    self.progressIndicator.hidden = NO;
-    
-    [self.progressIndicator startAnimation:nil];
-    
-    [self.engine startWithProgressBlock:^(DuplicationEngineData *data, BOOL completed) {
+    if(![self.engine isRunning])
+    {
+        self.progressIndicator.hidden = NO;
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [self reloadDataWithEngineData:data completed:completed];
-            
-        });
+        [self.progressIndicator startAnimation:nil];
         
-    }];
+        [self.startButton setImage:[NSImage imageNamed:@"stop"]];
+        
+        [self.engine startWithProgressBlock:^(DuplicationEngineData *data, BOOL completed) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self reloadDataWithEngineData:data completed:completed];
+                
+            });
+        }];
+    }
+    else
+    {
+        [self cancel];
+    }
 }
 
-- (IBAction)cancelButtonAction:(id)sender
+- (IBAction)clearButtonAction:(id)sender
 {
+    [self cancel];
+    
+    DuplicationEngineData *data = [self.engine clear];
+    
+    [self reloadDataWithEngineData:data completed:YES];
+    
+    [self.progressIndicator stopAnimation:nil];
+    
+    self.progressIndicator.hidden = YES;
+
+    self.progressBar.doubleValue = 0.0;
+}
+
+- (void)cancel
+{
+    [self.startButton setImage:[NSImage imageNamed:@"play"]];
+    
     DuplicationEngineData *data = [self.engine cancel];
     
     [self reloadDataWithEngineData:data completed:YES];
@@ -216,28 +267,11 @@
     self.progressIndicator.hidden = YES;
 }
 
-- (IBAction)newButtonAction:(id)sender
-{
-    DuplicationEngineData *data = [self.engine clear];
-    
-    [self reloadDataWithEngineData:data completed:YES];
-    
-    [self.engine.searchDirectories removeAllObjects];
-    
-    [self.progressIndicator stopAnimation:nil];
-    
-    self.progressIndicator.hidden = YES;
-    
-    self.textView.string = @"";
-    
-    self.progressBar.doubleValue = 0.0;
-}
-
 #pragma mark - Presenter
 
 - (void)reloadDataWithEngineData:(DuplicationEngineData*)data completed:(BOOL)completed
 {
-    self.fileCounterTextField.stringValue = [NSString stringWithFormat:@"%lu/%lu/%lu", data.numberOfDirectories, data.numberOfFiles, data.numberOfDuplications];
+    self.fileCounterTextField.stringValue = [NSString stringWithFormat:@"Directories: %lu Files: %lu Duplications: %lu", data.numberOfDirectories, data.numberOfFiles, data.numberOfDuplications];
     
     self.progressBar.doubleValue = data.percent;
     
@@ -245,7 +279,8 @@
     {
         [data sortingResult];
         
-        NSMutableString* resultString = [NSMutableString string];
+        // Create text version of result
+        /*NSMutableString* resultString = [NSMutableString string];
         
         for(id item in data.result)
         {
@@ -255,9 +290,11 @@
             }
         }
         
-        [resultString appendFormat:@"\n"];
+        [resultString appendFormat:@"\n"];*/
         
-        self.textView.string = resultString.length ? resultString : @"Not found";
+        [self.startButton setImage:[NSImage imageNamed:@"play"]];
+        
+        [self.engine cancel];
         
         [self.progressIndicator stopAnimation:nil];
         

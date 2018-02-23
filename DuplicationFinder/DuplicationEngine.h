@@ -17,6 +17,8 @@
 
 - (void)startWithProgressBlock:(void (^)(DuplicationEngineData* data, BOOL completed))progressBlock;
 
+- (BOOL)isRunning;
+
 - (DuplicationEngineData*)cancel;
 
 - (DuplicationEngineData*)clear;

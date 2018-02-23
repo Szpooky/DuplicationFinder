@@ -44,7 +44,7 @@
         
         self.fileManager = [NSFileManager defaultManager];
         
-        self.cancelled = NO;
+        self.cancelled = YES;
     }
     return self;
 }
@@ -61,6 +61,11 @@
     });
 }
 
+- (BOOL)isRunning
+{
+    return !self.cancelled;
+}
+
 - (DuplicationEngineData*)cancel
 {
     self.cancelled = YES;
@@ -70,15 +75,13 @@
 
 - (DuplicationEngineData*)clear
 {
-    [self.searchDirectories removeAllObjects];
-    
     [self.engineData clear];
     
     [self.allDirectories removeAllObjects];
     
     [self.clasteredFiles removeAllObjects];
     
-    self.cancelled = NO;
+    self.cancelled = YES;
     
     return self.engineData;
 }
@@ -239,6 +242,8 @@
     
     if(progressBlock)
     {
+        self.engineData.percent = 100.0;
+        
         progressBlock(self.engineData, YES);
     }
 }
