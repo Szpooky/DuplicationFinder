@@ -456,7 +456,7 @@
 {
     if([item isKindOfClass:[NSURL class]])
     {
-        return [((NSURL*)item) iconImageWithCompletionBlock:nil];
+        return [((NSURL*)item) iconImageWithCompletionBlock:nil].quickIcon;
     }
     else
     {
