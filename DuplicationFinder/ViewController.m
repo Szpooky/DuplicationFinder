@@ -210,7 +210,28 @@
     
     if([openPanel runModal] == NSFileHandlingPanelOKButton)
     {
-        [self.engine.searchDirectories addObjectsFromArray:[openPanel URLs]];
+        // avoid duplications in the search directories
+        NSArray* array = [openPanel URLs];
+        
+        for(NSURL* url in array)
+        {
+            BOOL found = NO;
+            
+            for(NSURL* existingURL in self.engine.searchDirectories)
+            {
+                if([[url absoluteString] isEqualToString:[existingURL absoluteString]])
+                {
+                    found = YES;
+                    
+                    break;
+                }
+            }
+            
+            if(!found)
+            {
+                [self.engine.searchDirectories addObject:url];
+            }
+        }
     }
 }
 
