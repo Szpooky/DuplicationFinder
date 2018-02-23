@@ -12,6 +12,13 @@
 		C230CC241FD54314002C27E5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C230CC231FD54314002C27E5 /* ViewController.m */; };
 		C230CC261FD54314002C27E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C230CC251FD54314002C27E5 /* Assets.xcassets */; };
 		C230CC291FD54314002C27E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C230CC271FD54314002C27E5 /* Main.storyboard */; };
+		C230CC321FD55427002C27E5 /* DuplicationEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = C230CC311FD55427002C27E5 /* DuplicationEngine.m */; };
+		C24246471FD6A3EE007A939F /* NSURL+Duplication.m in Sources */ = {isa = PBXBuildFile; fileRef = C24246461FD6A3EE007A939F /* NSURL+Duplication.m */; };
+		C242464A1FD6A500007A939F /* DuplicationEngineData.m in Sources */ = {isa = PBXBuildFile; fileRef = C24246491FD6A500007A939F /* DuplicationEngineData.m */; };
+		C24246591FD8165F007A939F /* TableViewCellHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C24246581FD8165F007A939F /* TableViewCellHeader.m */; };
+		C242465C1FD8259E007A939F /* TableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = C242465B1FD8259E007A939F /* TableCellView.m */; };
+		C242465F1FD85018007A939F /* TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C242465E1FD85018007A939F /* TableView.m */; };
+		F85550E4203FA12E00205602 /* NSMutableDictionary+Duplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F85550E3203FA12E00205602 /* NSMutableDictionary+Duplication.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +31,20 @@
 		C230CC251FD54314002C27E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C230CC281FD54314002C27E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C230CC2A1FD54314002C27E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C230CC301FD55427002C27E5 /* DuplicationEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicationEngine.h; sourceTree = "<group>"; };
+		C230CC311FD55427002C27E5 /* DuplicationEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuplicationEngine.m; sourceTree = "<group>"; };
+		C24246451FD6A3EE007A939F /* NSURL+Duplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Duplication.h"; sourceTree = "<group>"; };
+		C24246461FD6A3EE007A939F /* NSURL+Duplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Duplication.m"; sourceTree = "<group>"; };
+		C24246481FD6A500007A939F /* DuplicationEngineData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DuplicationEngineData.h; sourceTree = "<group>"; };
+		C24246491FD6A500007A939F /* DuplicationEngineData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DuplicationEngineData.m; sourceTree = "<group>"; };
+		C24246571FD8165F007A939F /* TableViewCellHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCellHeader.h; sourceTree = "<group>"; };
+		C24246581FD8165F007A939F /* TableViewCellHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCellHeader.m; sourceTree = "<group>"; };
+		C242465A1FD8259E007A939F /* TableCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableCellView.h; sourceTree = "<group>"; };
+		C242465B1FD8259E007A939F /* TableCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableCellView.m; sourceTree = "<group>"; };
+		C242465D1FD85018007A939F /* TableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableView.h; sourceTree = "<group>"; };
+		C242465E1FD85018007A939F /* TableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableView.m; sourceTree = "<group>"; };
+		F85550E2203FA12E00205602 /* NSMutableDictionary+Duplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Duplication.h"; sourceTree = "<group>"; };
+		F85550E3203FA12E00205602 /* NSMutableDictionary+Duplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Duplication.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,10 +77,17 @@
 		C230CC1B1FD54314002C27E5 /* DuplicationFinder */ = {
 			isa = PBXGroup;
 			children = (
+				C24246521FD810C1007A939F /* Core */,
 				C230CC1C1FD54314002C27E5 /* AppDelegate.h */,
 				C230CC1D1FD54314002C27E5 /* AppDelegate.m */,
 				C230CC221FD54314002C27E5 /* ViewController.h */,
 				C230CC231FD54314002C27E5 /* ViewController.m */,
+				C242465D1FD85018007A939F /* TableView.h */,
+				C242465E1FD85018007A939F /* TableView.m */,
+				C242465A1FD8259E007A939F /* TableCellView.h */,
+				C242465B1FD8259E007A939F /* TableCellView.m */,
+				C24246571FD8165F007A939F /* TableViewCellHeader.h */,
+				C24246581FD8165F007A939F /* TableViewCellHeader.m */,
 				C230CC251FD54314002C27E5 /* Assets.xcassets */,
 				C230CC271FD54314002C27E5 /* Main.storyboard */,
 				C230CC2A1FD54314002C27E5 /* Info.plist */,
@@ -74,6 +102,21 @@
 				C230CC201FD54314002C27E5 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C24246521FD810C1007A939F /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C24246451FD6A3EE007A939F /* NSURL+Duplication.h */,
+				C24246461FD6A3EE007A939F /* NSURL+Duplication.m */,
+				F85550E2203FA12E00205602 /* NSMutableDictionary+Duplication.h */,
+				F85550E3203FA12E00205602 /* NSMutableDictionary+Duplication.m */,
+				C24246481FD6A500007A939F /* DuplicationEngineData.h */,
+				C24246491FD6A500007A939F /* DuplicationEngineData.m */,
+				C230CC301FD55427002C27E5 /* DuplicationEngine.h */,
+				C230CC311FD55427002C27E5 /* DuplicationEngine.m */,
+			);
+			name = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,7 +145,7 @@
 		C230CC111FD54314002C27E5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Peter Sipos";
 				TargetAttributes = {
 					C230CC181FD54314002C27E5 = {
@@ -146,8 +189,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F85550E4203FA12E00205602 /* NSMutableDictionary+Duplication.m in Sources */,
+				C242465F1FD85018007A939F /* TableView.m in Sources */,
+				C242465C1FD8259E007A939F /* TableCellView.m in Sources */,
+				C24246591FD8165F007A939F /* TableViewCellHeader.m in Sources */,
+				C230CC321FD55427002C27E5 /* DuplicationEngine.m in Sources */,
 				C230CC241FD54314002C27E5 /* ViewController.m in Sources */,
+				C24246471FD6A3EE007A939F /* NSURL+Duplication.m in Sources */,
 				C230CC211FD54314002C27E5 /* main.m in Sources */,
+				C242464A1FD6A500007A939F /* DuplicationEngineData.m in Sources */,
 				C230CC1E1FD54314002C27E5 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,7 +226,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -184,7 +236,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -224,7 +280,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -232,7 +290,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -298,6 +360,7 @@
 				C230CC2F1FD54314002C27E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
