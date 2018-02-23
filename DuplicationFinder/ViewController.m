@@ -59,6 +59,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quickLookFileFromContentAtRow:) name:QUICK_LOOK_FILE_NOTIFICATION object:nil];
 }
 
+- (void)setRepresentedObject:(id)representedObject
+{
+    [super setRepresentedObject:representedObject];
+    
+    // Update the view, if already loaded.
+}
+
+#pragma mark - Actions
+
 - (void)doubleClick
 {
     NSInteger row = self.tableView.clickedRow;
@@ -107,13 +116,30 @@
                             
                             [self.content removeObject:cellContent];
                             
-#warning Required remove headerViewCell, if section is empty
+                            // remove section if neccessary
+                            id prevCellContent = (row > 0) ? self.content[row - 1] : nil;
+                            
+                            id nextCellContent = (row < self.content.count) ? self.content[row] : nil;
+                            
+                            if(prevCellContent && nextCellContent)
+                            {
+                                if([prevCellContent isKindOfClass:[NSNumber class]] && [nextCellContent isKindOfClass:[NSNumber class]])
+                                {
+                                    [self.content removeObject:prevCellContent];
+                                }
+                            }
+                            else if(prevCellContent && [prevCellContent isKindOfClass:[NSNumber class]])
+                            {
+                                [self.content removeObject:prevCellContent];
+                            }
+                            else
+                            {
+                                NSLog(@"If you see that, RUN!");
+                            }
                             
                             [self.tableView reloadData];
-                            
                         });
                     }
-                    
                 }];
             }
         }
@@ -139,6 +165,8 @@
         }
     }
 }
+
+#pragma mark - Button Actions
 
 - (IBAction)addButtonAction:(id)sender
 {
@@ -170,42 +198,18 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            self.fileCounterTextField.stringValue = [NSString stringWithFormat:@"%lu/%lu/%lu", data.numberOfDirectories, data.numberOfFiles, data.numberOfDuplications];
-            
-            self.progressBar.doubleValue = data.percent;
-
-            if(completed)
-            {
-                NSMutableString* resultString = [NSMutableString string];
-                
-                for(id item in data.result)
-                {
-                    if([item isKindOfClass:[NSURL class]])
-                    {
-                        [resultString appendFormat:@"%@\n", [(NSURL*)item path]];
-                    }
-                }
-                
-                [resultString appendFormat:@"\n"];
-                
-                self.textView.string = resultString.length ? resultString : @"Not found";
-                
-                [self.progressIndicator stopAnimation:nil];
-                
-                self.progressIndicator.hidden = YES;
-                
-                self.content = data.result;
-                
-                [self.tableView reloadData];
-            }
+            [self reloadDataWithEngineData:data completed:completed];
             
         });
         
     }];
 }
+
 - (IBAction)cancelButtonAction:(id)sender
 {
-    [self.engine cancel];
+    DuplicationEngineData *data = [self.engine cancel];
+    
+    [self reloadDataWithEngineData:data completed:YES];
     
     [self.progressIndicator stopAnimation:nil];
     
@@ -214,7 +218,9 @@
 
 - (IBAction)newButtonAction:(id)sender
 {
-    [self.engine clear];
+    DuplicationEngineData *data = [self.engine clear];
+    
+    [self reloadDataWithEngineData:data completed:YES];
     
     [self.engine.searchDirectories removeAllObjects];
     
@@ -222,21 +228,48 @@
     
     self.progressIndicator.hidden = YES;
     
-    self.fileCounterTextField.stringValue = [NSString stringWithFormat:@"(%@/%@) %@%@ %@/%@ files", @(0), @(0), @(0), @"%", @(0), @(0)];
-    
     self.textView.string = @"";
     
     self.progressBar.doubleValue = 0.0;
 }
 
+#pragma mark - Presenter
 
-- (void)setRepresentedObject:(id)representedObject {
-    [super setRepresentedObject:representedObject];
-
-    // Update the view, if already loaded.
+- (void)reloadDataWithEngineData:(DuplicationEngineData*)data completed:(BOOL)completed
+{
+    self.fileCounterTextField.stringValue = [NSString stringWithFormat:@"%lu/%lu/%lu", data.numberOfDirectories, data.numberOfFiles, data.numberOfDuplications];
+    
+    self.progressBar.doubleValue = data.percent;
+    
+    if(completed)
+    {
+        [data sortingResult];
+        
+        NSMutableString* resultString = [NSMutableString string];
+        
+        for(id item in data.result)
+        {
+            if([item isKindOfClass:[NSURL class]])
+            {
+                [resultString appendFormat:@"%@\n", [(NSURL*)item path]];
+            }
+        }
+        
+        [resultString appendFormat:@"\n"];
+        
+        self.textView.string = resultString.length ? resultString : @"Not found";
+        
+        [self.progressIndicator stopAnimation:nil];
+        
+        self.progressIndicator.hidden = YES;
+        
+        self.content = data.result;
+        
+        [self.tableView reloadData];
+    }
 }
 
-#pragma mark tableView datasource
+#pragma mark - TableView Datasource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
@@ -318,16 +351,6 @@
         
         return cell;
     }
-}
-
-- (void)tableViewColumnDidMove:(NSNotification *)notification
-{
-    
-}
-
-- (void)tableViewColumnDidResize:(NSNotification *)notification
-{
-    
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row

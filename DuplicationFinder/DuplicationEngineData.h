@@ -10,17 +10,19 @@
 
 @interface DuplicationEngineData : NSObject
 
-@property (nonatomic) CGFloat percent;
+@property (nonatomic)           CGFloat         percent;
 
-@property (nonatomic) NSUInteger numberOfDuplications;
+@property (nonatomic)           NSUInteger      numberOfDuplications;
 
-@property (nonatomic) NSUInteger numberOfDirectories;
+@property (nonatomic)           NSUInteger      numberOfDirectories;
 
-@property (nonatomic) NSUInteger numberOfFiles;
+@property (nonatomic)           NSUInteger      numberOfFiles;
 
-@property (nonatomic, strong)   NSMutableArray<NSMutableArray*>* result;
+@property (nonatomic, strong)   NSMutableArray* result;
 
 - (void)clear;
+
+- (void)sortingResult;
 
 @end
 
