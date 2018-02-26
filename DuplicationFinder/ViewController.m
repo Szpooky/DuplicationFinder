@@ -10,12 +10,14 @@
 #import "DuplicationEngine.h"
 #import "TableViewCellHeader.h"
 #import "TableCellView.h"
+#import "DirectoryTableViewDelegate.h"
+#import "ConfirmButton.h"
 
 @interface ViewController () <NSTableViewDataSource, NSTableViewDelegate, QLPreviewPanelDelegate, QLPreviewPanelDataSource>
 
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
 
-@property (weak) IBOutlet NSButton *startNewButton;
+@property (weak) IBOutlet ConfirmButton *startNewButton;
 
 @property (weak) IBOutlet NSButton *addButton;
 
@@ -31,41 +33,110 @@
 
 @property (weak) IBOutlet NSTableView *tableView;
 
+@property (weak) IBOutlet NSTableView *directoryTableView;
+
+@property (nonatomic, strong) DirectoryTableViewDelegate* directoryTableViewDelegate;
+
 @property (nonatomic, strong) NSMutableArray* content;
 
 @property (nonatomic, strong) QLPreviewPanel* previewPanel;
+
+@property (nonatomic) dispatch_queue_t queue;
 
 @end
 
 
 @implementation ViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self setup];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self)
+    {
+        [self setup];
+    }
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSNibName)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self)
+    {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)setup
+{
+    self.engine = [DuplicationEngine new];
+    
+    self.queue = dispatch_queue_create("[DUPLICATION.REMOVE", DISPATCH_QUEUE_SERIAL);
+    
+    self.directoryTableViewDelegate = [DirectoryTableViewDelegate new];
+    
+    self.directoryTableViewDelegate.engine = self.engine;
+    
+    self.content = [NSMutableArray new];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeFileFromContentAtRow:) name:REMOVE_FILE_NOTIFICATION object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quickLookFileFromContentAtRow:) name:QUICK_LOOK_FILE_NOTIFICATION object:nil];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
+    self.startNewButton.confirmString = @"Sure?";
     
-    self.content = [NSMutableArray new];
-    
+    self.startNewButton.confirmationSuccessBlock = ^{
+      
+        [self cancel];
+        
+        DuplicationEngineData *data = [self.engine clear];
+        
+        [self reloadDataWithEngineData:data completed:YES];
+        
+        [self.directoryTableViewDelegate clear];
+        
+        [self.progressIndicator stopAnimation:nil];
+        
+        self.progressIndicator.hidden = YES;
+        
+        self.progressBar.doubleValue = 0.0;
+        
+    };
     
     self.tableView.delegate = self;
     
     self.tableView.dataSource = self;
     
+    self.directoryTableViewDelegate.tableView = self.directoryTableView;
+    
+    self.directoryTableView.delegate = self.directoryTableViewDelegate;
+    
+    self.directoryTableView.dataSource = self.directoryTableViewDelegate;
+    
     [self.tableView setDoubleAction:@selector(doubleClick)];
     
     self.progressIndicator.hidden = YES;
     
-    self.engine = [DuplicationEngine new];
-    
     DuplicationEngineData *data = [self.engine cancel];
     
     [self reloadDataWithEngineData:data completed:YES];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeFileFromContentAtRow:) name:REMOVE_FILE_NOTIFICATION object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quickLookFileFromContentAtRow:) name:QUICK_LOOK_FILE_NOTIFICATION object:nil];
 }
 
 - (void)setRepresentedObject:(id)representedObject
@@ -121,12 +192,12 @@
                     }
                     else
                     {
-                        dispatch_async(dispatch_get_main_queue(), ^{
+                        dispatch_sync(self.queue, ^{
                             
                             [self.content removeObject:cellContent];
                             
                             // remove section if neccessary
-                            id prevCellContent = (row > 0) ? self.content[row - 1] : nil;
+                            id prevCellContent = (row > 0) ? self.content[row - 1] : nil; // It should be always true
                             
                             id nextCellContent = (row < self.content.count) ? self.content[row] : nil;
                             
@@ -141,12 +212,16 @@
                             {
                                 [self.content removeObject:prevCellContent];
                             }
-                            else
+                            else if(nextCellContent)
                             {
                                 NSLog(@"If you see that, RUN!");
                             }
                             
-                            [self.tableView reloadData];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                [self.tableView reloadData];
+                                
+                            });
                         });
                     }
                 }];
@@ -177,62 +252,39 @@
 
 #pragma mark - Button Actions
 
-- (IBAction)startNewButtonAction:(id)sender
+- (IBAction)startNewButtonAction:(ConfirmButton*)sender
 {
-    [self cancel];
+    [self.startNewButton click];
     
-    DuplicationEngineData *data = [self.engine clear];
-    
-    [self reloadDataWithEngineData:data completed:YES];
-    
-    [self.engine.searchDirectories removeAllObjects];
-    
-    [self.progressIndicator stopAnimation:nil];
-    
-    self.progressIndicator.hidden = YES;
-    
-    self.progressBar.doubleValue = 0.0;
+    return;
+#warning under construction
+    if([self.startNewButton.title isEqualToString:@"New"])
+    {
+        self.startNewButton.title = @"Sure? (3)";
+    }
+    else
+    {
+        self.startNewButton.title = @"New";
+        
+        [self cancel];
+        
+        DuplicationEngineData *data = [self.engine clear];
+        
+        [self reloadDataWithEngineData:data completed:YES];
+        
+        [self.directoryTableViewDelegate clear];
+        
+        [self.progressIndicator stopAnimation:nil];
+        
+        self.progressIndicator.hidden = YES;
+        
+        self.progressBar.doubleValue = 0.0;
+    }
 }
 
 - (IBAction)addButtonAction:(id)sender
 {
-    [self cancel];
-    
-    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    
-    openPanel.directoryURL = [NSURL URLWithString:@"file:/Volumes/"];
-    
-    openPanel.canChooseFiles = YES;
-    
-    openPanel.allowsMultipleSelection = YES;
-    
-    openPanel.canChooseDirectories = YES;
-    
-    if([openPanel runModal] == NSFileHandlingPanelOKButton)
-    {
-        // avoid duplications in the search directories
-        NSArray* array = [openPanel URLs];
-        
-        for(NSURL* url in array)
-        {
-            BOOL found = NO;
-            
-            for(NSURL* existingURL in self.engine.searchDirectories)
-            {
-                if([[url absoluteString] isEqualToString:[existingURL absoluteString]])
-                {
-                    found = YES;
-                    
-                    break;
-                }
-            }
-            
-            if(!found)
-            {
-                [self.engine.searchDirectories addObject:url];
-            }
-        }
-    }
+    [self.directoryTableViewDelegate addDirectory];
 }
 
 - (IBAction)startButtonAction:(id)sender
@@ -324,6 +376,8 @@
         self.content = data.result;
         
         [self.tableView reloadData];
+        
+        [self.directoryTableViewDelegate.tableView reloadData];
     }
 }
 
@@ -543,6 +597,11 @@
     {
         return nil;
     }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

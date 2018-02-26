@@ -18,6 +18,10 @@
 		C24246591FD8165F007A939F /* TableViewCellHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C24246581FD8165F007A939F /* TableViewCellHeader.m */; };
 		C242465C1FD8259E007A939F /* TableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = C242465B1FD8259E007A939F /* TableCellView.m */; };
 		C242465F1FD85018007A939F /* TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C242465E1FD85018007A939F /* TableView.m */; };
+		C28B808F20431672001D1E93 /* DirectoryTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C28B808E20431672001D1E93 /* DirectoryTableViewDelegate.m */; };
+		C28B809220431B75001D1E93 /* AddDirectoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C28B809120431B75001D1E93 /* AddDirectoryCell.m */; };
+		C28B809520431B89001D1E93 /* DirectoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C28B809420431B89001D1E93 /* DirectoryCell.m */; };
+		C28B809820432841001D1E93 /* ConfirmButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C28B809720432841001D1E93 /* ConfirmButton.m */; };
 		F85550E4203FA12E00205602 /* NSMutableDictionary+Duplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F85550E3203FA12E00205602 /* NSMutableDictionary+Duplication.m */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +47,14 @@
 		C242465B1FD8259E007A939F /* TableCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableCellView.m; sourceTree = "<group>"; };
 		C242465D1FD85018007A939F /* TableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableView.h; sourceTree = "<group>"; };
 		C242465E1FD85018007A939F /* TableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableView.m; sourceTree = "<group>"; };
+		C28B808D20431672001D1E93 /* DirectoryTableViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectoryTableViewDelegate.h; sourceTree = "<group>"; };
+		C28B808E20431672001D1E93 /* DirectoryTableViewDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DirectoryTableViewDelegate.m; sourceTree = "<group>"; };
+		C28B809020431B75001D1E93 /* AddDirectoryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddDirectoryCell.h; sourceTree = "<group>"; };
+		C28B809120431B75001D1E93 /* AddDirectoryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddDirectoryCell.m; sourceTree = "<group>"; };
+		C28B809320431B89001D1E93 /* DirectoryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectoryCell.h; sourceTree = "<group>"; };
+		C28B809420431B89001D1E93 /* DirectoryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DirectoryCell.m; sourceTree = "<group>"; };
+		C28B809620432841001D1E93 /* ConfirmButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmButton.h; sourceTree = "<group>"; };
+		C28B809720432841001D1E93 /* ConfirmButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfirmButton.m; sourceTree = "<group>"; };
 		F85550E2203FA12E00205602 /* NSMutableDictionary+Duplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Duplication.h"; sourceTree = "<group>"; };
 		F85550E3203FA12E00205602 /* NSMutableDictionary+Duplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Duplication.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,6 +100,14 @@
 				C242465B1FD8259E007A939F /* TableCellView.m */,
 				C24246571FD8165F007A939F /* TableViewCellHeader.h */,
 				C24246581FD8165F007A939F /* TableViewCellHeader.m */,
+				C28B808D20431672001D1E93 /* DirectoryTableViewDelegate.h */,
+				C28B808E20431672001D1E93 /* DirectoryTableViewDelegate.m */,
+				C28B809020431B75001D1E93 /* AddDirectoryCell.h */,
+				C28B809120431B75001D1E93 /* AddDirectoryCell.m */,
+				C28B809320431B89001D1E93 /* DirectoryCell.h */,
+				C28B809420431B89001D1E93 /* DirectoryCell.m */,
+				C28B809620432841001D1E93 /* ConfirmButton.h */,
+				C28B809720432841001D1E93 /* ConfirmButton.m */,
 				C230CC251FD54314002C27E5 /* Assets.xcassets */,
 				C230CC271FD54314002C27E5 /* Main.storyboard */,
 				C230CC2A1FD54314002C27E5 /* Info.plist */,
@@ -191,14 +211,18 @@
 			files = (
 				F85550E4203FA12E00205602 /* NSMutableDictionary+Duplication.m in Sources */,
 				C242465F1FD85018007A939F /* TableView.m in Sources */,
+				C28B809520431B89001D1E93 /* DirectoryCell.m in Sources */,
 				C242465C1FD8259E007A939F /* TableCellView.m in Sources */,
 				C24246591FD8165F007A939F /* TableViewCellHeader.m in Sources */,
 				C230CC321FD55427002C27E5 /* DuplicationEngine.m in Sources */,
 				C230CC241FD54314002C27E5 /* ViewController.m in Sources */,
 				C24246471FD6A3EE007A939F /* NSURL+Duplication.m in Sources */,
 				C230CC211FD54314002C27E5 /* main.m in Sources */,
+				C28B809820432841001D1E93 /* ConfirmButton.m in Sources */,
 				C242464A1FD6A500007A939F /* DuplicationEngineData.m in Sources */,
+				C28B808F20431672001D1E93 /* DirectoryTableViewDelegate.m in Sources */,
 				C230CC1E1FD54314002C27E5 /* AppDelegate.m in Sources */,
+				C28B809220431B75001D1E93 /* AddDirectoryCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
